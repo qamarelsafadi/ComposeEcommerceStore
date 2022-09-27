@@ -7,6 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 fun rowModifier(): Modifier {
-    return Modifier.fillMaxWidth().padding(bottom = 22.dp)
+    return Modifier.fillMaxWidth().padding(bottom = 22.dp, end = 18.dp)
 
 }

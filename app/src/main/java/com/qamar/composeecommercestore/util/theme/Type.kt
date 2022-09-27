@@ -17,8 +17,10 @@ val Typography = Typography(
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
         lineHeight = 1.sp,
-        lineHeightStyle = LineHeightStyle(alignment = LineHeightStyle.Alignment.Bottom,
-        trim = LineHeightStyle.Trim.None)
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Bottom,
+            trim = LineHeightStyle.Trim.None
+        )
     ),
     caption = TextStyle(
         fontFamily = fonts,
@@ -35,6 +37,21 @@ val Typography = Typography(
         fontFamily = fonts,
         fontWeight = FontWeight.Bold,
         fontSize = 25.sp
+    ),
+    h3 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Bold,
+        fontSize = 22.sp
+    ),
+    h2 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp
+    ),
+    h4 =  TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
     )
 
 )

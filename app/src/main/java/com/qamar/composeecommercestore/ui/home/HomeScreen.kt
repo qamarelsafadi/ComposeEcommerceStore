@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.qamar.composeecommercestore.R
 import com.qamar.composeecommercestore.data.Product
+import com.qamar.composeecommercestore.ui.home.components.CarouselView
 import com.qamar.composeecommercestore.util.Resource
 import com.qamar.composeecommercestore.util.rowModifier
 import com.qamar.composeecommercestore.util.theme.ComposeEcommerceStoreTheme
@@ -42,7 +43,7 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 18.dp, vertical = 24.dp)
+                .padding(start = 18.dp, top = 24.dp , bottom = 24.dp)
         ) {
             Row(rowModifier(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Icon(painter = painterResource(id = R.drawable.navicon), contentDescription = "")
@@ -65,6 +66,8 @@ fun HomeScreen(
                     }
                 }
             }
+
+            CarouselView()
         }
 
     }
