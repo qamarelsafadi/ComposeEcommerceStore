@@ -1,6 +1,5 @@
 package com.qamar.composeecommercestore.data.category.source
 
-import android.util.Log
 import com.qamar.composeecommercestore.data.category.Category
 import com.qamar.composeecommercestore.data.category.source.local.CategoryLocalDataSource
 import com.qamar.composeecommercestore.data.category.source.remote.CategoryRemoteDataSource
@@ -14,10 +13,10 @@ class CategoryRepositoryImp(
 ) : CategoryRepository {
 
     private suspend fun updateCategoriesFromRemoteDataSource(): Resource<List<Category>> {
-        val remoteTasks = categoryRemoteDataSource.getCategories()
-        if (remoteTasks.status == Status.SUCCESS) {
+        val remoteCategories = categoryRemoteDataSource.getCategories()
+        if (remoteCategories.status == Status.SUCCESS) {
             categoryLocalDataSource.deleteAllCategories()
-            remoteTasks.data?.forEach { category ->
+            remoteCategories.data?.forEach { category ->
                 categoryLocalDataSource.saveCategory(category)
             }
         }

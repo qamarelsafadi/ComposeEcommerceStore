@@ -25,11 +25,11 @@ import javax.inject.Singleton
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class RemoteTasksDataSource
+annotation class RemoteCategoryDataSource
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class LocalTasksDataSource
+annotation class LocalCategoryDataSource
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -37,9 +37,9 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideTasksRepository(
-        @RemoteTasksDataSource remoteDataSource: CategoryRemoteDataSource,
-        @LocalTasksDataSource localDataSource: CategoryLocalDataSource,
+    fun provideCategoriesRepository(
+        @RemoteCategoryDataSource remoteDataSource: CategoryRemoteDataSource,
+        @LocalCategoryDataSource localDataSource: CategoryLocalDataSource,
     ): CategoryRepository {
         return CategoryRepositoryImp(remoteDataSource, localDataSource)
     }
@@ -50,16 +50,16 @@ object RepositoryModule {
 object DataSourceModule {
 
     @Singleton
-    @RemoteTasksDataSource
+    @RemoteCategoryDataSource
     @Provides
-    fun provideTasksRemoteDataSource(
+    fun provideCategoriesRemoteDataSource(
         apiService: CategoryApi
     ): CategoryRemoteDataSource = CategoriesRemoteDataSource(apiService)
 
     @Singleton
-    @LocalTasksDataSource
+    @LocalCategoryDataSource
     @Provides
-    fun provideTasksLocalDataSource(
+    fun provideCategoriesLocalDataSource(
         database: CategoriesDatabase,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): CategoryLocalDataSource {
