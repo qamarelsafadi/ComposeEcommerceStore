@@ -1,5 +1,6 @@
 package com.qamar.composeecommercestore.data.category.source
 
+import android.util.Log
 import com.qamar.composeecommercestore.data.category.Category
 import com.qamar.composeecommercestore.data.category.source.local.CategoryLocalDataSource
 import com.qamar.composeecommercestore.data.category.source.remote.CategoryRemoteDataSource
@@ -12,32 +13,25 @@ class CategoryRepositoryImp(
     private val categoryLocalDataSource: CategoryLocalDataSource
 ) : CategoryRepository {
 
-    private suspend fun updateTasksFromRemoteDataSource() {
+    private suspend fun updateCategoriesFromRemoteDataSource(): Resource<List<Category>> {
         val remoteTasks = categoryRemoteDataSource.getCategories()
         if (remoteTasks.status == Status.SUCCESS) {
             categoryLocalDataSource.deleteAllCategories()
-            remoteTasks.data?.forEach { task ->
-                categoryLocalDataSource.saveCategory(task)
-            }
-        } else if (remoteTasks.status == Status.ERROR) {
-        }
-    }
-
-    override fun getCategoriesStream(): Flow<Resource<List<Category>>> {
-        return if (categoryLocalDataSource.isEmpty())
-            categoryRemoteDataSource.getCategoriesStream()
-        else categoryLocalDataSource.getCategoriesStream()
-    }
-
-    override suspend fun getCategories(forceUpdate: Boolean): Resource<List<Category>> {
-        if (forceUpdate) {
-            try {
-                updateTasksFromRemoteDataSource()
-            } catch (ex: Exception) {
-                return Resource.error(message = ex.message, data = null)
+            remoteTasks.data?.forEach { category ->
+                categoryLocalDataSource.saveCategory(category)
             }
         }
         return categoryLocalDataSource.getCategories()
+    }
+
+    override fun getCategoriesStream(): Flow<Resource<List<Category>>> {
+        return categoryLocalDataSource.getCategoriesStream()
+    }
+
+    override suspend fun getCategories(forceUpdate: Boolean): Resource<List<Category>> {
+        return if (categoryLocalDataSource.isEmpty() && forceUpdate)
+            updateCategoriesFromRemoteDataSource()
+        else categoryLocalDataSource.getCategories()
     }
 }
 

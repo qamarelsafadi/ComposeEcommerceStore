@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CategoryLocalDataSource {
     fun getCategoriesStream(): Flow<Resource<List<Category>>>
-    fun isEmpty(): Boolean
+    suspend fun isEmpty(): Boolean
     suspend fun getCategories(): Resource<List<Category>>
     suspend fun deleteAllCategories()
     suspend fun saveCategory(category: Category)

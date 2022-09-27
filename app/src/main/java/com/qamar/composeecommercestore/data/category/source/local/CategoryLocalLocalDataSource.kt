@@ -1,5 +1,6 @@
 package com.qamar.composeecommercestore.data.category.source.local
 
+import android.util.Log
 import com.qamar.composeecommercestore.data.category.Category
 import com.qamar.composeecommercestore.util.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -18,12 +19,8 @@ class CategoryLocalLocalDataSource internal constructor(
         }
     }
 
-    override fun isEmpty(): Boolean {
-        var isEmpty = true
-        categoryDao.observeCategories().map {
-            isEmpty = it.isNullOrEmpty()
-        }
-        return isEmpty
+    override suspend fun isEmpty(): Boolean {
+        return getCategories().data?.isNullOrEmpty() ?: true
     }
 
     override suspend fun getCategories(): Resource<List<Category>> = withContext(ioDispatcher) {

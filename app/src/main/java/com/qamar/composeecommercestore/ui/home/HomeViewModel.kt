@@ -30,22 +30,20 @@ class HomeViewModel @Inject constructor(
     fun getHome() {
         viewModelScope.launch {
             isLoading = true
-            val responseResult = categoryRepository.getCategoriesStream()
-            responseResult.collect { result ->
-                when (result.status) {
-                    Status.SUCCESS -> {
-                        result.data?.let {
-                            isLoading = false
-                            _categoryList.clear()
-                            _categoryList.addAll(it)
-                        }
-                    }
-                    Status.ERROR -> {
+            val result = categoryRepository.getCategories(true)
+            when (result.status) {
+                Status.SUCCESS -> {
+                    result.data?.let {
                         isLoading = false
-                        errorMessage = result.message ?: ""
+                        _categoryList.clear()
+                        _categoryList.addAll(it)
                     }
-                    else -> {}
                 }
+                Status.ERROR -> {
+                    isLoading = false
+                    errorMessage = result.message ?: ""
+                }
+                else -> {}
             }
         }
     }
