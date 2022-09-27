@@ -1,6 +1,5 @@
 package com.qamar.composeecommercestore.data.category.source.local
 
-import android.util.Log
 import com.qamar.composeecommercestore.data.category.Category
 import com.qamar.composeecommercestore.util.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -9,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
-class CategoryLocalLocalDataSource internal constructor(
+class CategoriesLocalDataSource internal constructor(
     private val categoryDao: CategoryDao,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CategoryLocalDataSource {

@@ -7,7 +7,7 @@ import com.qamar.composeecommercestore.data.category.source.local.CategoryLocalD
 import com.qamar.composeecommercestore.data.category.source.CategoryRepository
 import com.qamar.composeecommercestore.data.category.source.CategoryRepositoryImp
 import com.qamar.composeecommercestore.data.category.source.local.CategoriesDatabase
-import com.qamar.composeecommercestore.data.category.source.local.CategoryLocalLocalDataSource
+import com.qamar.composeecommercestore.data.category.source.local.CategoriesLocalDataSource
 import com.qamar.composeecommercestore.data.category.source.remote.CategoriesRemoteDataSource
 import com.qamar.composeecommercestore.data.category.source.remote.CategoryApi
 import com.qamar.composeecommercestore.data.category.source.remote.CategoryRemoteDataSource
@@ -63,7 +63,7 @@ object DataSourceModule {
         database: CategoriesDatabase,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): CategoryLocalDataSource {
-        return CategoryLocalLocalDataSource(database.categoryDao(), ioDispatcher)
+        return CategoriesLocalDataSource(database.categoryDao(), ioDispatcher)
     }
 }
 
