@@ -17,3 +17,8 @@ data class Category(
     @SerializedName("name")
     var name: String? = ""
 )
+
+fun Category.asExternalModel() = Category(
+    name = name,
+    image = image,
+)

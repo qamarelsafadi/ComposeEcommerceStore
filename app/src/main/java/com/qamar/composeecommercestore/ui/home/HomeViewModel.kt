@@ -1,18 +1,34 @@
 package com.qamar.composeecommercestore.ui.home
 
 import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.qamar.composeecommercestore.data.category.Category
 import com.qamar.composeecommercestore.data.category.source.CategoryRepository
-import com.qamar.composeecommercestore.util.Status
+import com.qamar.composeecommercestore.util.Result
+import com.qamar.composeecommercestore.util.asResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+data class HomeUiState(
+    val categories: CategoriesUiState
+)
+
+@Immutable
+sealed interface CategoriesUiState {
+    data class Success(val categories: List<Category>) : CategoriesUiState
+    object Error : CategoriesUiState
+    object Loading : CategoriesUiState
+}
+
+sealed interface ProductsUiState {
+    data class Success(val categories: List<Category>) : ProductsUiState
+    object Error : ProductsUiState
+    object Loading : ProductsUiState
+}
 
 /**
  * ViewModel for the category in home screen.
@@ -22,30 +38,44 @@ class HomeViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository
 ) : ViewModel() {
 
-    private val _categoryList = mutableStateListOf<Category>()
-    val categoryList: List<Category> get() = _categoryList
-    private var errorMessage: String by mutableStateOf("")
-    var isLoading: Boolean by mutableStateOf(true)
+    private val _uiState = MutableStateFlow(HomeUiState(CategoriesUiState.Loading))
+    val uiState = _uiState.asStateFlow()
 
-    fun getHome() {
+    fun fetchHome() {
         viewModelScope.launch {
-            isLoading = true
-            val result = categoryRepository.getCategories(true)
-            when (result.status) {
-                Status.SUCCESS -> {
-                    result.data?.let {
-                        isLoading = false
-                        _categoryList.clear()
-                        _categoryList.addAll(it)
+            Log.e("QMR","HEY FROM VIEWMODEL")
+            categoryRepository.getCategoriesStream().asResult()
+                .collect { result ->
+                    val categoriesUiState = when (result) {
+                        is Result.Success -> CategoriesUiState.Success(result.data)
+                        is Result.Loading -> CategoriesUiState.Loading
+                        is Result.Error -> CategoriesUiState.Error
                     }
+                    _uiState.value = HomeUiState(categoriesUiState)
                 }
-                Status.ERROR -> {
-                    isLoading = false
-                    errorMessage = result.message ?: ""
-                }
-                else -> {}
-            }
         }
     }
-
+    // if more than one in same viewModel we can use combine else
+//    val uiState: StateFlow<HomeUiState> = categories.collect {
+//        val topRated: CategoriesUiState = when (it) {
+//            is Result.Success -> CategoriesUiState.Success(it.data)
+//            is Result.Loading -> CategoriesUiState.Loading
+//            is Result.Error -> CategoriesUiState.Error
+//        }
+//
+//        HomeUiState(
+//            topRated,
+//            isRefreshing.value,
+//            isError.value
+//        )
+//    }
+//        .stateIn(
+//            scope = viewModelScope,
+//            started = WhileUiSubscribed,
+//            initialValue = HomeUiState(
+//                CategoriesUiState.Loading,
+//                isRefreshing = false,
+//                isError = false
+//            )
+//        )
 }

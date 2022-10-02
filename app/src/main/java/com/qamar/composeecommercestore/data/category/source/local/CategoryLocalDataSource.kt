@@ -1,15 +1,13 @@
 package com.qamar.composeecommercestore.data.category.source.local
 
-import com.qamar.composeecommercestore.data.Result
 import com.qamar.composeecommercestore.data.category.Category
-import com.qamar.composeecommercestore.util.Resource
+import com.qamar.composeecommercestore.util.Result
 import kotlinx.coroutines.flow.Flow
 
 
 interface CategoryLocalDataSource {
-    fun getCategoriesStream(): Flow<Resource<List<Category>>>
-    suspend fun isEmpty(): Boolean
-    suspend fun getCategories(): Resource<List<Category>>
+    fun getCategoriesStream(): Flow<List<Category>>
+    suspend fun getCategories(): Result<List<Category>>
     suspend fun deleteAllCategories()
     suspend fun saveCategory(category: Category)
 

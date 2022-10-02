@@ -2,6 +2,7 @@ package com.qamar.composeecommercestore.data.category.source.remote
 
 import com.qamar.composeecommercestore.data.category.Category
 import com.qamar.composeecommercestore.util.Resource
+import com.qamar.composeecommercestore.util.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
@@ -11,20 +12,20 @@ class CategoriesRemoteDataSource @Inject constructor(
     private val api: CategoryApi
 ) : CategoryRemoteDataSource {
 
-    override fun getCategoriesStream(): Flow<Resource<List<Category>>> =
+    override fun getCategoriesStream(): Flow<Result<List<Category>>> =
         MutableStateFlow(runBlocking { getCategories() })
 
-    override suspend fun getCategories(): Resource<List<Category>> {
-        val data: Resource<List<Category>> = try {
+    override suspend fun getCategories(): Result<List<Category>> {
+        val data: Result<List<Category>> = try {
             val response = api.getCategory()
             if (response.isSuccessful) {
-                Resource.success(response.body() ?: listOf())
+                Result.Success(response.body() ?: listOf())
             } else {
-                Resource.error(message = response.errorBody().toString(), data = null)
+                Result.Error(Throwable(message = response.errorBody().toString()))
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.error(message = e.message, data = null)
+            Result.Error()
 
         }
         return data
