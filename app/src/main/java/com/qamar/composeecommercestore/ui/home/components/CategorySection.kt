@@ -23,7 +23,7 @@ fun CategoryList(
     LazyRow(
         Modifier
             .fillMaxWidth()
-            .padding(top = 22.dp),
+            .padding(top = 12.dp, start = 18.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         when (uiState) {

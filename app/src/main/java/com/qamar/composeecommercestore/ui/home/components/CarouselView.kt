@@ -42,9 +42,9 @@ fun CarouselView() {
         // the more you increae the end padding the more
         // content of your other page will show
         // Add 32.dp horizontal padding to 'center' the pages
-        contentPadding = PaddingValues(end = 65.dp),
+        contentPadding = PaddingValues(end = 65.dp, start = 18.dp),
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
 
     ) { page ->
         Card(

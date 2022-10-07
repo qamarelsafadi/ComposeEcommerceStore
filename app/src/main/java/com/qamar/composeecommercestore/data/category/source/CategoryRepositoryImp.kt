@@ -28,7 +28,8 @@ class CategoryRepositoryImp(
     }
 
     override suspend fun getCategoriesStream(): Flow<List<Category>> {
-        return updateCategoriesFromRemoteDataSource()
+        updateCategoriesFromRemoteDataSource()
+        return categoryLocalDataSource.getCategoriesStream()
     }
 
     override suspend fun getCategories(forceUpdate: Boolean): Result<List<Category>> {

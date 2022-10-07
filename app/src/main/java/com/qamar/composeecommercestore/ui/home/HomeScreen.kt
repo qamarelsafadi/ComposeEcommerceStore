@@ -43,16 +43,20 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 18.dp, top = 24.dp, bottom = 24.dp)
+                .padding( top = 14.dp)
         ) {
             Row(rowModifier(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Icon(painter = painterResource(id = R.drawable.navicon), contentDescription = "")
                 Icon(painter = painterResource(id = R.drawable.search), contentDescription = "")
             }
-            Text(text = stringResource(R.string.categories), style = MaterialTheme.typography.h1)
+            Text(
+                modifier = Modifier.padding(start = 18.dp),
+                text = stringResource(R.string.categories),
+                style = MaterialTheme.typography.h1)
             CategoryList(uiState.categories, selectedPosition)
             CarouselView()
-            Text(text = stringResource(R.string.trending_items), style = MaterialTheme.typography.h1)
+            Text(modifier = Modifier.padding(top = 18.dp, start = 18.dp),
+                text = stringResource(R.string.trending_items), style = MaterialTheme.typography.h1)
             TrendingList()
 
         }

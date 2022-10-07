@@ -33,7 +33,7 @@ fun TrendingList() {
             TrendingItem(
                 modifier = Modifier
                     .fillParentMaxWidth()
-                    .padding(end = 18.dp)
+                    .padding(end = 18.dp, start = 18.dp)
                     .height(126.dp)
             )
         }
