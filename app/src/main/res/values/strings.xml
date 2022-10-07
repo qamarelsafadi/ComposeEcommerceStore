@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ComposeEcommerceStore</string>
+    <string name="categories">Categories</string>
+    <string name="trending_items">Trending Items</string>
 </resources>

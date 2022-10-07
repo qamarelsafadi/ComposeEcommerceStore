@@ -18,4 +18,8 @@
     <color name="brown_light">#C6B9B3</color>
     <color name="gray_light">#F6F0FF</color>
     <color name="white_alpha">#42FFFFFF</color>
+    <color name="terq">#2BA8AE</color>
+    <color name="purp">#7F4A83</color>
+    <color name="yell">#E3E937</color>
+    <color name="text_alpha2">#6E413434</color>
 </resources>
