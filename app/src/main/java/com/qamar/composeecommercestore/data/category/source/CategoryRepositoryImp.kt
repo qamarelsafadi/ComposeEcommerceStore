@@ -1,22 +1,20 @@
 package com.qamar.composeecommercestore.data.category.source
 
-import android.util.Log
-import com.qamar.composeecommercestore.data.category.Category
+import com.qamar.composeecommercestore.data.category.model.Category
 import com.qamar.composeecommercestore.data.category.source.local.CategoryLocalDataSource
 import com.qamar.composeecommercestore.data.category.source.remote.CategoryRemoteDataSource
-import com.qamar.composeecommercestore.util.Resource
 import com.qamar.composeecommercestore.util.Result
-import com.qamar.composeecommercestore.util.Status
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onEmpty
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 class CategoryRepositoryImp(
     private val categoryRemoteDataSource: CategoryRemoteDataSource,
     private val categoryLocalDataSource: CategoryLocalDataSource
 ) : CategoryRepository {
 
-    private suspend fun updateCategoriesFromRemoteDataSource(): Flow<List<Category>> {
+    private suspend fun updateCategoriesFromRemoteDataSource() {
         val remoteCategories = categoryRemoteDataSource.getCategories()
         if (remoteCategories is Result.Success) {
             categoryLocalDataSource.deleteAllCategories()
@@ -24,16 +22,23 @@ class CategoryRepositoryImp(
                 categoryLocalDataSource.saveCategory(category)
             }
         }
-        return categoryLocalDataSource.getCategoriesStream()
     }
 
     override suspend fun getCategoriesStream(): Flow<List<Category>> {
-        updateCategoriesFromRemoteDataSource()
+        // TODO : need someone to tell me if this is a good approach
+      val getFromNetwork = categoryLocalDataSource.getCategoriesStream().map {
+            it.isEmpty()
+        }
+        if (getFromNetwork.first()) {
+            try {
+                updateCategoriesFromRemoteDataSource()
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                return MutableStateFlow(listOf())
+            }
+        }
         return categoryLocalDataSource.getCategoriesStream()
     }
 
-    override suspend fun getCategories(forceUpdate: Boolean): Result<List<Category>> {
-        return categoryLocalDataSource.getCategories()
-    }
 }
 

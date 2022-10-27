@@ -1,4 +1,4 @@
-package com.qamar.composeecommercestore.data.category
+package com.qamar.composeecommercestore.data.category.model
 
 
 import androidx.room.ColumnInfo

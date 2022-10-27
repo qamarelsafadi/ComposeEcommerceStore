@@ -11,6 +11,11 @@ import com.qamar.composeecommercestore.data.category.source.local.CategoriesLoca
 import com.qamar.composeecommercestore.data.category.source.remote.CategoriesRemoteDataSource
 import com.qamar.composeecommercestore.data.category.source.remote.CategoryApi
 import com.qamar.composeecommercestore.data.category.source.remote.CategoryRemoteDataSource
+import com.qamar.composeecommercestore.data.product.ProductRepository
+import com.qamar.composeecommercestore.data.product.ProductRepositoryImp
+import com.qamar.composeecommercestore.data.product.source.remote.ProductApi
+import com.qamar.composeecommercestore.data.product.source.remote.ProductRemoteDataSource
+import com.qamar.composeecommercestore.data.product.source.remote.ProductsRemoteDataSource
 import com.qamar.composeecommercestore.util.RetrofitBuilder
 import com.qamar.composeecommercestore.util.HeaderInterceptor
 import dagger.Module
@@ -31,6 +36,10 @@ annotation class RemoteCategoryDataSource
 @Retention(AnnotationRetention.RUNTIME)
 annotation class LocalCategoryDataSource
 
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class RemoteProductDataSource
+
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
@@ -42,6 +51,14 @@ object RepositoryModule {
         @LocalCategoryDataSource localDataSource: CategoryLocalDataSource,
     ): CategoryRepository {
         return CategoryRepositoryImp(remoteDataSource, localDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideProductRepository(
+        @RemoteProductDataSource remoteDataSource: ProductRemoteDataSource,
+    ): ProductRepository {
+        return ProductRepositoryImp(remoteDataSource)
     }
 }
 
@@ -64,6 +81,15 @@ object DataSourceModule {
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): CategoryLocalDataSource {
         return CategoriesLocalDataSource(database.categoryDao(), ioDispatcher)
+    }
+
+    @Singleton
+    @RemoteProductDataSource
+    @Provides
+    fun provideProductRemoteDataSource(
+        apiService: ProductApi
+    ): ProductsRemoteDataSource {
+        return ProductsRemoteDataSource(apiService)
     }
 }
 
@@ -98,6 +124,12 @@ object NetworkingModule {
 
     @Provides
     @Singleton
-    fun provideCategoriesApi(retrofit: Retrofit): CategoryApi = retrofit.create(CategoryApi::class.java)
+    fun provideCategoriesApi(retrofit: Retrofit): CategoryApi =
+        retrofit.create(CategoryApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideProductApi(retrofit: Retrofit): CategoryApi =
+        retrofit.create(CategoryApi::class.java)
 
 }

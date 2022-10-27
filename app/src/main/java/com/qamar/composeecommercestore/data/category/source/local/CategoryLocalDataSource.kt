@@ -1,6 +1,6 @@
 package com.qamar.composeecommercestore.data.category.source.local
 
-import com.qamar.composeecommercestore.data.category.Category
+import com.qamar.composeecommercestore.data.category.model.Category
 import com.qamar.composeecommercestore.util.Result
 import kotlinx.coroutines.flow.Flow
 

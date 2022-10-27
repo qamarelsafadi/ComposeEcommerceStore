@@ -1,7 +1,6 @@
 package com.qamar.composeecommercestore.data.category.source.remote
 
-import com.qamar.composeecommercestore.data.category.Category
-import com.qamar.composeecommercestore.util.Resource
+import com.qamar.composeecommercestore.data.category.model.Category
 import com.qamar.composeecommercestore.util.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +25,6 @@ class CategoriesRemoteDataSource @Inject constructor(
         } catch (e: Exception) {
             e.printStackTrace()
             Result.Error()
-
         }
         return data
     }

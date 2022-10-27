@@ -1,7 +1,7 @@
 package com.qamar.composeecommercestore.data.category.source.local
 
-import com.qamar.composeecommercestore.data.category.Category
-import com.qamar.composeecommercestore.data.category.asExternalModel
+import com.qamar.composeecommercestore.data.category.model.Category
+import com.qamar.composeecommercestore.data.category.model.asExternalModel
 import com.qamar.composeecommercestore.util.Resource
 import com.qamar.composeecommercestore.util.Result
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,8 +22,6 @@ class CategoriesLocalDataSource internal constructor(
             }
         }
     }
-
-
 
 
 override suspend fun getCategories(): Result<List<Category>> = withContext(ioDispatcher) {

@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.qamar.composeecommercestore.data.category.Category
+import com.qamar.composeecommercestore.data.category.model.Category
 import kotlinx.coroutines.flow.Flow
 
 /**
