@@ -1,5 +1,6 @@
 package com.qamar.composeecommercestore.data.category.source.local
 
+import android.util.Log
 import com.qamar.composeecommercestore.data.category.model.Category
 import com.qamar.composeecommercestore.data.category.model.asExternalModel
 import com.qamar.composeecommercestore.util.Resource
@@ -17,6 +18,8 @@ class CategoriesLocalDataSource internal constructor(
 ) : CategoryLocalDataSource {
     override fun getCategoriesStream(): Flow<List<Category>> {
         return categoryDao.observeCategories().map { entityMovies ->
+            Log.e("qmrLog","${ entityMovies.size}")
+
             entityMovies.map {
                 it.asExternalModel()
             }

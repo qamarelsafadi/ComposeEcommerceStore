@@ -5,4 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
     suspend fun getCategoriesStream(): Flow<List<Category>>
+    fun getCategory(): Flow<com.qamar.composeecommercestore.util.Result<List<Category>>>
 }

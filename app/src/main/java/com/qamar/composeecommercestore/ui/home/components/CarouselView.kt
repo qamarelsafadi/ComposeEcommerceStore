@@ -24,10 +24,23 @@ import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.qamar.composeecommercestore.util.theme.ComposeEcommerceStoreTheme
 import kotlin.math.absoluteValue
 import com.qamar.composeecommercestore.R
+import com.qamar.composeecommercestore.ui.home.ProductsUiState
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun CarouselView() {
+fun CarouselView(products: ProductsUiState) {
+    when(products){
+        is ProductsUiState.Error->{
+            print("heyError")
+        }
+        is ProductsUiState.Loading ->{
+            print("heyLoadingProduct")
+        }
+        is  ProductsUiState.Success ->{
+            print("heySuccessProduct${products.products.size}")
+
+        }
+    }
     val gradient = Brush.verticalGradient(
         1000f to colorResource(id = R.color.gradinet3),
         1000f to colorResource(id = R.color.gradinet)
@@ -165,10 +178,3 @@ fun ProductItem(page: Int) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ComposeEcommerceStoreTheme {
-        CarouselView()
-    }
-}

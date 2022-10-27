@@ -1,5 +1,6 @@
 package com.qamar.composeecommercestore.data.category.source.remote
 
+import android.util.Log
 import com.qamar.composeecommercestore.data.category.model.Category
 import com.qamar.composeecommercestore.util.Result
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +19,7 @@ class CategoriesRemoteDataSource @Inject constructor(
         val data: Result<List<Category>> = try {
             val response = api.getCategory()
             if (response.isSuccessful) {
+               Log.e("qmrLog","${ response.body()}")
                 Result.Success(response.body() ?: listOf())
             } else {
                 Result.Error(Throwable(message = response.errorBody().toString()))

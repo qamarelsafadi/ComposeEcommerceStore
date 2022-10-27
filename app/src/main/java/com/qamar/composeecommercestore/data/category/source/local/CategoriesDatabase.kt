@@ -2,7 +2,7 @@ package com.qamar.composeecommercestore.data.category.source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.qamar.composeecommercestore.data.category.Category
+import com.qamar.composeecommercestore.data.category.model.Category
 
 /**
  * The Room Database that contains the Task table.

@@ -1,5 +1,6 @@
 package com.qamar.composeecommercestore.ui.home.components
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -28,6 +29,7 @@ fun CategoryList(
     ) {
         when (uiState) {
             is CategoriesUiState.Success -> {
+                Log.e("QMRCAT","qmr${uiState.categories.size}")
                 itemsIndexed(items = uiState.categories) { index, item ->
                     CategoryItem(
                         isSelected = selectedPosition1 == index,
@@ -38,9 +40,11 @@ fun CategoryList(
                 }
             }
             CategoriesUiState.Error -> {
+                Log.e("QMRCAT","qmrError")
 
             }
             CategoriesUiState.Loading -> {
+                Log.e("QMRCAT","qmrLoading")
 
             }
         }

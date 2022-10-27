@@ -88,7 +88,7 @@ object DataSourceModule {
     @Provides
     fun provideProductRemoteDataSource(
         apiService: ProductApi
-    ): ProductsRemoteDataSource {
+    ): ProductRemoteDataSource {
         return ProductsRemoteDataSource(apiService)
     }
 }
@@ -129,7 +129,7 @@ object NetworkingModule {
 
     @Provides
     @Singleton
-    fun provideProductApi(retrofit: Retrofit): CategoryApi =
-        retrofit.create(CategoryApi::class.java)
+    fun provideProductApi(retrofit: Retrofit): ProductApi =
+        retrofit.create(ProductApi::class.java)
 
 }

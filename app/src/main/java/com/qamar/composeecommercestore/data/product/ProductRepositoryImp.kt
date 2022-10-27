@@ -11,7 +11,7 @@ class ProductRepositoryImp(
     private val productRemoteDataSource: ProductRemoteDataSource,
 ) : ProductRepository {
 
-    override suspend fun getProductByCategoryId(id: Int): Flow<Result<List<Product>>> {
+    override fun getProductByCategoryId(id: Int): Flow<Result<List<Product>>> {
         return MutableStateFlow(runBlocking { productRemoteDataSource.getProductByCategoryId(id) })
     }
 

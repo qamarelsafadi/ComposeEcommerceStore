@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.qamar.composeecommercestore.R
 import com.qamar.composeecommercestore.data.Product
 import com.qamar.composeecommercestore.ui.home.components.CarouselView
@@ -26,10 +27,8 @@ fun HomeScreen(
     onProductClick: (Product) -> Unit,
 ) {
     val selectedPosition by remember { mutableStateOf(0) }
-    LaunchedEffect(Unit) {
-        viewModel.fetchCategories()
-    }
-    val uiState: HomeUiState by viewModel.uiState.collectAsState()
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -49,7 +48,7 @@ fun HomeScreen(
                 text = stringResource(R.string.categories),
                 style = MaterialTheme.typography.h1)
             CategoryList(uiState.categories, selectedPosition)
-            CarouselView()
+            CarouselView(uiState.products)
             Text(modifier = Modifier.padding(top = 18.dp, start = 18.dp),
                 text = stringResource(R.string.trending_items), style = MaterialTheme.typography.h1)
             TrendingList()

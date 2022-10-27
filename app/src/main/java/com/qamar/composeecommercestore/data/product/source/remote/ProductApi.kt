@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface ProductApi {
 
-    @GET("categories/{id}/products?limit=10&offset=10")
+    @GET("v1/categories/{id}/products?limit=10&offset=10")
     suspend fun getProduct(
         @Path("id") id: Int
     ): Response<List<Product>>
