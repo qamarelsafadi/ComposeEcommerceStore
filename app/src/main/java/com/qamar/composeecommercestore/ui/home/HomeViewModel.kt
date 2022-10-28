@@ -61,7 +61,6 @@ class HomeViewModel @Inject constructor(
         categoryRepository.getCategory(),
         getProductByCategory, _isLoading
     ) { categories, products, loading ->
-        Log.e("products", "${products}")
         HomeUiState(
             when (categories) {
                 is Result.Success -> CategoriesUiState.Success(categories.data)

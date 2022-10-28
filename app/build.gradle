@@ -139,4 +139,6 @@ dependencies {
     }
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation("io.coil-kt:coil-compose:2.2.2")
+
 }

@@ -23,12 +23,14 @@ fun CategoryList(
     selected: (Category) -> Unit
 ) {
     var selectedPosition1 by remember { mutableStateOf(selectedPosition) }
+
     LazyRow(
         Modifier
             .fillMaxWidth()
             .padding(top = 12.dp, start = 18.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        var list = listOf<Category>()
         when (uiState) {
             is CategoriesUiState.Success -> {
                 itemsIndexed(items = uiState.categories) { index, item ->
@@ -40,7 +42,7 @@ fun CategoryList(
                         selected(item)
                     }
                 }
-
+                list = uiState.categories
             }
             CategoriesUiState.Error -> {
                 Log.e("QMRCAT", "qmrError")
@@ -51,8 +53,13 @@ fun CategoryList(
 
             }
         }
+        if (selectedPosition1 == 0 && list.isNotEmpty())
+            selected(list.first())
 
+       Log.e("qmrLsit","${list.size}")
     }
+
+
 }
 
 @Composable
@@ -60,7 +67,7 @@ fun CategoryItem(
     isSelected: Boolean? = false,
     category: Category,
     selected: (Category) -> Unit,
-    ) {
+) {
     Box(Modifier.wrapContentHeight()) {
         Text(
             modifier = Modifier

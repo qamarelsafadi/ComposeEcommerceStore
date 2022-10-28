@@ -54,11 +54,10 @@ fun HomeScreen(
                 text = stringResource(R.string.categories),
                 style = MaterialTheme.typography.h1
             )
-            CategoryList(uiState.categories, selectedPosition){
+            CategoryList(uiState.categories, selectedPosition) {
                 viewModel.selectedId = it.categoryId ?: 0
-                coroutineScope.launch {
-                    viewModel.getProducts()
-                }
+                viewModel.getProducts()
+                Log.e("qmrHeeeyCCCC","cccc")
             }
             CarouselView(uiState.products, uiState.isLoading)
             Text(
