@@ -21,4 +21,5 @@ data class Category(
 fun Category.asExternalModel() = Category(
     name = name,
     image = image,
+    categoryId = categoryId
 )

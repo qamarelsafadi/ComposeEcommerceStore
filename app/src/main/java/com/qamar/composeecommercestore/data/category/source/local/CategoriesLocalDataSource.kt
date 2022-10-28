@@ -19,7 +19,6 @@ class CategoriesLocalDataSource internal constructor(
     override fun getCategoriesStream(): Flow<List<Category>> {
         return categoryDao.observeCategories().map { entityMovies ->
             Log.e("qmrLog","${ entityMovies.size}")
-
             entityMovies.map {
                 it.asExternalModel()
             }

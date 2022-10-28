@@ -46,20 +46,6 @@ class CategoryRepositoryImp(
     }
 
     override fun getCategory(): Flow<Result<List<Category>>> {
-        val getFromNetwork = categoryLocalDataSource.getCategoriesStream().map {
-            it.isEmpty()
-        }
-        runBlocking {
-            if (getFromNetwork.first()) {
-                Log.e("qmr", "cat heeey")
-                try {
-                    updateCategoriesFromRemoteDataSource()
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                     MutableStateFlow<List<Category>>(listOf()).asResult()
-                }
-            }
-        }
         return categoryLocalDataSource.getCategoriesStream().asResult()
     }
 

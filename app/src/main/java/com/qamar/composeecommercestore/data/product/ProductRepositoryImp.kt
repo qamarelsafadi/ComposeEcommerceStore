@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
 import com.qamar.composeecommercestore.util.Result
+import com.qamar.composeecommercestore.util.asResult
 
 class ProductRepositoryImp(
     private val productRemoteDataSource: ProductRemoteDataSource,
 ) : ProductRepository {
 
-    override fun getProductByCategoryId(id: Int): Flow<Result<List<Product>>> {
-        return MutableStateFlow(runBlocking { productRemoteDataSource.getProductByCategoryId(id) })
+    override suspend fun getProductByCategoryId(id: Int): Result<List<Product>> {
+        return productRemoteDataSource.getProductByCategoryId(id)
     }
-
 }
 

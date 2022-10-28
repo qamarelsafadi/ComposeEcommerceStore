@@ -6,6 +6,6 @@ import  com.qamar.composeecommercestore.util.Result
 
 interface ProductRepository {
 
-    fun getProductByCategoryId(id: Int): Flow<Result<List<Product>>>
+   suspend fun getProductByCategoryId(id: Int): Result<List<Product>>
 
 }

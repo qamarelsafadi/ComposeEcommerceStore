@@ -7,20 +7,22 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.qamar.composeecommercestore.R
+import com.qamar.composeecommercestore.data.category.model.Category
 import com.qamar.composeecommercestore.ui.home.CategoriesUiState
 
 
 @Composable
 fun CategoryList(
     uiState: CategoriesUiState,
-    selectedPosition: Int
+    selectedPosition: Int,
+    selected: (Category) -> Unit
 ) {
-    var selectedPosition1 = selectedPosition
+    var selectedPosition1 by remember { mutableStateOf(selectedPosition) }
     LazyRow(
         Modifier
             .fillMaxWidth()
@@ -29,22 +31,23 @@ fun CategoryList(
     ) {
         when (uiState) {
             is CategoriesUiState.Success -> {
-                Log.e("QMRCAT","qmr${uiState.categories.size}")
                 itemsIndexed(items = uiState.categories) { index, item ->
                     CategoryItem(
                         isSelected = selectedPosition1 == index,
-                        categoryName = item.name ?: ""
+                        category = item,
                     ) {
                         selectedPosition1 = index
+                        selected(item)
                     }
                 }
+
             }
             CategoriesUiState.Error -> {
-                Log.e("QMRCAT","qmrError")
+                Log.e("QMRCAT", "qmrError")
 
             }
             CategoriesUiState.Loading -> {
-                Log.e("QMRCAT","qmrLoading")
+                Log.e("QMRCAT", "qmrLoading")
 
             }
         }
@@ -55,18 +58,18 @@ fun CategoryList(
 @Composable
 fun CategoryItem(
     isSelected: Boolean? = false,
-    categoryName: String,
-    selected: () -> Unit
-) {
+    category: Category,
+    selected: (Category) -> Unit,
+    ) {
     Box(Modifier.wrapContentHeight()) {
         Text(
             modifier = Modifier
                 .wrapContentHeight()
                 .padding(end = 28.dp)
                 .clickable {
-                    selected()
+                    selected(category)
                 },
-            text = categoryName,
+            text = category.name ?: "",
             color = if (isSelected == false) colorResource(id = R.color.unselectedColor) else colorResource(
                 id = R.color.selectedColor
             ),
