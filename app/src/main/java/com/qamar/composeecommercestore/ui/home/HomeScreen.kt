@@ -57,7 +57,6 @@ fun HomeScreen(
             CategoryList(uiState.categories, selectedPosition) {
                 viewModel.selectedId = it.categoryId ?: 0
                 viewModel.getProducts()
-                Log.e("qmrHeeeyCCCC","cccc")
             }
             CarouselView(uiState.products, uiState.isLoading)
             Text(

@@ -32,7 +32,6 @@ class CategoryRepositoryImp(
             it.isEmpty()
         }
         if (getFromNetwork.first()) {
-            Log.e("qmr", "cat heeey")
             try {
                 updateCategoriesFromRemoteDataSource()
             } catch (ex: Exception) {
@@ -40,8 +39,6 @@ class CategoryRepositoryImp(
                 return MutableStateFlow(listOf())
             }
         }
-        Log.e("qmr", "cat heeey")
-
         return categoryLocalDataSource.getCategoriesStream()
     }
 

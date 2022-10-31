@@ -9,6 +9,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,9 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import coil.compose.AsyncImage
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.calculateCurrentOffsetForPage
+import com.google.accompanist.pager.*
 import kotlin.math.absoluteValue
 import com.qamar.composeecommercestore.R
 import com.qamar.composeecommercestore.data.product.model.Product
@@ -32,10 +32,7 @@ import com.qamar.composeecommercestore.ui.home.ProductsUiState
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun CarouselView(products: ProductsUiState, loading: Boolean) {
-    Log.e("products", "${products}")
 
-
-    Log.e("qmrloading", "$loading")
     val gradient = Brush.verticalGradient(
         1000f to colorResource(id = R.color.gradinet3),
         1000f to colorResource(id = R.color.gradinet)
@@ -44,13 +41,11 @@ fun CarouselView(products: ProductsUiState, loading: Boolean) {
         1000f to colorResource(id = R.color.gradinet4),
         1000f to colorResource(id = R.color.gradinet2),
     )
-
+    val pagerState = rememberPagerState(0)
     when (products) {
         is ProductsUiState.Error -> {
-            print("heyError")
         }
         is ProductsUiState.Loading -> {
-            print("heyLoadingProduct")
         }
         is ProductsUiState.Success -> {
             HorizontalPager(
@@ -60,8 +55,8 @@ fun CarouselView(products: ProductsUiState, loading: Boolean) {
                 // Add 32.dp horizontal padding to 'center' the pages
                 contentPadding = PaddingValues(end = 65.dp, start = 18.dp),
                 modifier = Modifier
-                    .fillMaxWidth()
-
+                    .fillMaxWidth(),
+                state = pagerState
             ) { page ->
                 Card(
                     Modifier

@@ -45,18 +45,13 @@ fun CategoryList(
                 list = uiState.categories
             }
             CategoriesUiState.Error -> {
-                Log.e("QMRCAT", "qmrError")
 
             }
             CategoriesUiState.Loading -> {
-                Log.e("QMRCAT", "qmrLoading")
-
             }
         }
         if (selectedPosition1 == 0 && list.isNotEmpty())
             selected(list.first())
-
-       Log.e("qmrLsit","${list.size}")
     }
 
 
